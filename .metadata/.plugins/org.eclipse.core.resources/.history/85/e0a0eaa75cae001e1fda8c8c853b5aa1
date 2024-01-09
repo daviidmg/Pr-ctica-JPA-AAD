@@ -1,0 +1,96 @@
+package demo;
+
+import java.time.LocalDate;
+
+import entidades.Competicion;
+import entidades.Equipo;
+import entidades.Jugador;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+public class SimulacionMain {
+
+	public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+        EntityManager em = emf.createEntityManager();
+        
+        // Crear y persistir la compe
+        em.getTransaction().begin();
+
+        Competicion SuperLiga = new Competicion("SuperLiga", "01/02/2012", 20, 18);
+        em.persist(SuperLiga);
+        
+
+        // Crear y persistir equipos de la SuperLiga uno a uno
+        Equipo caseEsports = new Equipo("Case Esports");
+        em.persist(caseEsports);
+        
+        Jugador badlulu = new Jugador("Badlulu", "Frances", "13/09/2002", "Top");
+        badlulu.setEquipo(caseEsports);
+        em.persist(badlulu);
+        Jugador ahahacik = new Jugador("AHaHaCiK", "Ruso", "01/04/1999", "Jungla");
+        ahahacik.setEquipo(rebels);
+        em.persist(ahahacik);
+        Jugador special = new Jugador("Special", "Holandes", "27/01/1998", "Mid");
+        special.setEquipo(rebels);
+        em.persist(special);
+        Jugador bean = new Jugador("BEAN", "Aleman", "11/08/2000", "Adc");
+        bean.setEquipo(rebels);
+        em.persist(bean);
+        Jugador lekcyc = new Jugador("Lekcyc", "Ruso", "24/07/1993", "Support");
+        lekcyc.setEquipo(rebels);
+        em.persist(lekcyc);
+
+        Equipo barcaEsports = new Equipo("Barça Esports");
+        em.persist(barcaEsports);
+        
+        Equipo ramboot = new Equipo("Ramboot");
+        em.persist(ramboot);
+
+        Equipo rebels = new Equipo("Rebels");
+        em.persist(rebels);
+        
+        Jugador r4ven = new Jugador("R4VEN", "Polaco", "17/04/2000", "Top");
+        r4ven.setEquipo(rebels);
+        em.persist(r4ven);
+        Jugador ahahacik = new Jugador("AHaHaCiK", "Ruso", "01/04/1999", "Jungla");
+        ahahacik.setEquipo(rebels);
+        em.persist(ahahacik);
+        Jugador special = new Jugador("Special", "Holandes", "27/01/1998", "Mid");
+        special.setEquipo(rebels);
+        em.persist(special);
+        Jugador bean = new Jugador("BEAN", "Aleman", "11/08/2000", "Adc");
+        bean.setEquipo(rebels);
+        em.persist(bean);
+        Jugador lekcyc = new Jugador("Lekcyc", "Ruso", "24/07/1993", "Support");
+        lekcyc.setEquipo(rebels);
+        em.persist(lekcyc);
+        
+        
+        Equipo guasones = new Equipo("Guasones");
+        em.persist(guasones);
+
+        Equipo UCAM = new Equipo("UCAM");
+        em.persist(UCAM);
+        
+        Equipo losHeretics = new Equipo("Los Heretics");
+        em.persist(losHeretics);
+
+        Equipo giantX = new Equipo("GiantX");
+        em.persist(giantX);
+        
+        Equipo movistarKOI = new Equipo("Movistar KOI");
+        em.persist(movistarKOI);
+
+        Equipo ZETA = new Equipo("ZETA");
+        em.persist(ZETA);
+
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();    
+	}
+}
+
+

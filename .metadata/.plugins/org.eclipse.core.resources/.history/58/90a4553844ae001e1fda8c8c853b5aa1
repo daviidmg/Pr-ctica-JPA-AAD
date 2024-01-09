@@ -1,0 +1,47 @@
+package entidades;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.List;
+
+/**
+ * Esta clase representa un equipo en la competición.
+ *
+ * @author David
+ */
+@Entity
+@Table(name = "team")
+public class Equipo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String nombre;
+
+    // Otras propiedades y relaciones, como patrocinadores, clasificación, etc.
+
+    @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL)
+    private List<Deportista> plantilla;
+
+    // Constructores
+    public Equipo() {
+        // Constructor vacío requerido por JPA
+    }
+
+    public Equipo(String nombre, List<Deportista> plantilla) {
+        this.nombre = nombre;
+        this.plantilla = plantilla;
+    }
+
+    // Getters y setters (ya los tienes en tu código)
+
+    // Otros métodos o lógica si es necesario
+}
+

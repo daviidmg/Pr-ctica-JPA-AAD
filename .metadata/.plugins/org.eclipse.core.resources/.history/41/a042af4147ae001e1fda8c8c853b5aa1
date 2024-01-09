@@ -1,0 +1,32 @@
+package demo;
+
+import entidades.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+public class SimulacionMain {
+
+	public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        // Crear y persistir equipos de la LPL uno a uno
+        Equipo caseEsports = new Equipo("Case Esports");
+        em.persist(caseEsports);
+
+        Equipo barcaEsports = new Equipo("Barça Esports");
+        em.persist(barcaEsports);
+
+        // Agrega más equipos según sea necesario
+
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();    
+	}
+}
+
+
