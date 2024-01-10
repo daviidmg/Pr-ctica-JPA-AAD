@@ -1,10 +1,14 @@
 package entidades;
 
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -20,7 +24,8 @@ public class Equipo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-    @Column(name = "name")
+    
+    @Column(name = "name", unique = true)
     private String nombre;
     
     @Column(name = "win")
@@ -30,7 +35,10 @@ public class Equipo {
     private int derrotas;
     
     @Column(name = "matches")
-    private String jornadasJugadas;
+    private int jornadasJugadas = 0;
+    
+	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL)
+    private Set<Jugador> listaJugadores;
 
 	public String getNombre() {
 		return nombre;

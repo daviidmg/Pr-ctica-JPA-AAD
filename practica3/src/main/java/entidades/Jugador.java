@@ -22,7 +22,7 @@ public class Jugador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String nombre;
 
     @Column(name = "nationality")
@@ -35,7 +35,7 @@ public class Jugador {
     private String posicion;
 
     @ManyToOne
-    @JoinColumn(name = "team_id") // nombre de la columna en la tabla 'player' que referencia a 'team'
+    @JoinColumn(name = "team_id_fk") // nombre de la columna en la tabla 'player' que referencia a 'team'
     private Equipo equipo; // relación Many-to-One con la entidad Equipo
 
 
