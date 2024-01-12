@@ -1,9 +1,9 @@
-#Thu Jan 11 15:49:11 CET 2024
+#Fri Jan 12 15:49:05 CET 2024
 ct=jbt
 a=installed
-c=1
+c=0
 s=0
-d=1704984551468
+d=1705070945384
 v=2.3.100
 cmp=usage
 cl=HIBERNATE-MAVEN
