@@ -1,5 +1,6 @@
 package entidades;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -8,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -39,6 +43,13 @@ public class Equipo {
     
 	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL)
     private Set<Jugador> listaJugadores;
+	
+    // Relación Many-to-Many con la entidad Patrocinador
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "equipo_patrocinador", 
+        joinColumns = @JoinColumn(name = "equipo_id"), 
+        inverseJoinColumns = @JoinColumn(name = "patrocinador_id"))
+    private Set<Sponsor> patrocinadores;
 
 	public String getNombre() {
 		return nombre;
@@ -64,12 +75,20 @@ public class Equipo {
 		this.derrotas = derrotas;
 	}
 
-	public String getJornadasJugadas() {
+	public int getJornadasJugadas() {
 		return jornadasJugadas;
 	}
 
-	public void setJornadasJugadas(String jornadasJugadas) {
+	public void setJornadasJugadas(int jornadasJugadas) {
 		this.jornadasJugadas = jornadasJugadas;
+	}
+	
+	public Set<Sponsor> getPatrocinadores() {
+		return patrocinadores;
+	}
+	
+	public void setPatrocinadores(Set<Sponsor> patrocinadores) {
+		this.patrocinadores = patrocinadores;
 	}
 
 
@@ -80,6 +99,13 @@ public class Equipo {
 
     public Equipo(String nombre) {
         this.nombre = nombre;
+        this.patrocinadores = new HashSet<>();
+    }
+    
+    // Método para agregar un patrocinador al equipo
+    public void agregarPatrocinador(Sponsor patrocinador) {
+        patrocinadores.add(patrocinador);
+        patrocinador.agregarEquipoPatrocinado(this);
     }
 }
 
