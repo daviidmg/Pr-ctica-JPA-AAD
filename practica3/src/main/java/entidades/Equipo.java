@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -50,7 +51,14 @@ public class Equipo {
         joinColumns = @JoinColumn(name = "equipo_id"), 
         inverseJoinColumns = @JoinColumn(name = "patrocinador_id"))
     private Set<Sponsor> patrocinadores;
-
+    
+    
+    public void setListaJugadores(List<Jugador> listaJugadores) {
+		this.listaJugadores.addAll(listaJugadores);
+	}
+    public Set<Jugador> getListaJugadores() {
+		return listaJugadores;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -100,6 +108,11 @@ public class Equipo {
     public Equipo(String nombre) {
         this.nombre = nombre;
         this.patrocinadores = new HashSet<>();
+    }
+    
+    public void agregarJugador(Jugador jugador) {
+        listaJugadores.add(jugador);
+        jugador.setEquipo(this);
     }
     
     // Método para agregar un patrocinador al equipo

@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
  *
  * @author David
  */
+
 @Entity
 @Table(name = "player")
 public class Jugador {

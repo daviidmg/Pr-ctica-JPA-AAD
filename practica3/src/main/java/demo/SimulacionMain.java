@@ -17,14 +17,22 @@ public class SimulacionMain {
         // Crear y persistir la compe
         em.getTransaction().begin();
 
-        Competicion SuperLiga = new Competicion("SuperLiga", "01/02/2012", 20, 18);
+        Competicion SuperLiga = new Competicion("SuperLiga", "01/02/2012", 20, 10);
         em.persist(SuperLiga);
         
-        // Sponsors comunes
+/*        // Sponsors comunes
         Sponsor caixaBank = new Sponsor("CaixaBank");
         em.persist(caixaBank);
         Sponsor hummel = new Sponsor("Hummel");
         em.persist(hummel);
+        Sponsor redBull = new Sponsor("RedBull");
+        em.persist(redBull);
+        Sponsor digi = new Sponsor("DIGI");
+        em.persist(digi);
+        Sponsor movistar = new Sponsor("MOVISTAR");
+        em.persist(movistar);
+        Sponsor opel = new Sponsor("OPEL");
+        em.persist(opel);
         
 //--------------------------------Equipo1------------------------------------------------------------
 
@@ -54,8 +62,6 @@ public class SimulacionMain {
         em.persist(sponsor1Case);
         Sponsor sponsor2Case = new Sponsor("Bybit");
         em.persist(sponsor2Case);
-       /* Sponsor sponsor3Case = new Sponsor("Hummel");
-        em.persist(sponsor3Case); */
         Sponsor sponsor4Case = new Sponsor("Aloha Poké");
         em.persist(sponsor4Case);
         Sponsor sponsor5Case = new Sponsor("Gbest");
@@ -74,8 +80,6 @@ public class SimulacionMain {
         sponsor1Case.agregarEquipoPatrocinado(caseEsports);
         caseEsports.agregarPatrocinador(sponsor2Case);
         sponsor2Case.agregarEquipoPatrocinado(caseEsports);
-     /*   caseEsports.agregarPatrocinador(sponsor3Case);
-        sponsor3Case.agregarEquipoPatrocinado(caseEsports); */
         caseEsports.agregarPatrocinador(hummel);
         hummel.agregarEquipoPatrocinado(caseEsports);
         
@@ -140,8 +144,6 @@ public class SimulacionMain {
         em.persist(sponsor12Barca);
         Sponsor sponsor13Barca = new Sponsor("PRIME");
         em.persist(sponsor13Barca);
-      /*  Sponsor sponsor14Barca = new Sponsor("CaixaBank");
-        em.persist(sponsor14Barca); */
         Sponsor sponsor15Barca = new Sponsor("CocaCola");
         em.persist(sponsor15Barca);
         Sponsor sponsor16Barca = new Sponsor("ZIC");
@@ -178,8 +180,6 @@ public class SimulacionMain {
         sponsor12Barca.agregarEquipoPatrocinado(barcaEsports);
         barcaEsports.agregarPatrocinador(sponsor13Barca);
         sponsor13Barca.agregarEquipoPatrocinado(barcaEsports);
-     /*   barcaEsports.agregarPatrocinador(sponsor14Barca);
-        sponsor14Barca.agregarEquipoPatrocinado(barcaEsports);*/
         barcaEsports.agregarPatrocinador(caixaBank);
         caixaBank.agregarEquipoPatrocinado(barcaEsports);
         
@@ -216,26 +216,23 @@ public class SimulacionMain {
         // Sponsors
         Sponsor sponsor1Ramboot = new Sponsor("COOLMOD");
         em.persist(sponsor1Ramboot);
-        Sponsor sponsor2Ramboot = new Sponsor("DIGI Mobil");
-        em.persist(sponsor2Ramboot);
         Sponsor sponsor3Ramboot = new Sponsor("Newskill Gaming");
         em.persist(sponsor3Ramboot);
         Sponsor sponsor4Ramboot = new Sponsor("Lamburguesa");
         em.persist(sponsor4Ramboot);
-        Sponsor sponsor5Ramboot = new Sponsor("Red Bull");
-        em.persist(sponsor5Ramboot);
+
         
         // Asociar equipos y patrocinadores
         ramboot.agregarPatrocinador(sponsor1Ramboot);
         sponsor1Ramboot.agregarEquipoPatrocinado(ramboot);
-        ramboot.agregarPatrocinador(sponsor2Ramboot);
-        sponsor2Ramboot.agregarEquipoPatrocinado(ramboot);
+        ramboot.agregarPatrocinador(digi);
+        digi.agregarEquipoPatrocinado(ramboot);
         ramboot.agregarPatrocinador(sponsor3Ramboot);
         sponsor3Ramboot.agregarEquipoPatrocinado(ramboot);
         ramboot.agregarPatrocinador(sponsor4Ramboot);
         sponsor4Ramboot.agregarEquipoPatrocinado(ramboot);
-        ramboot.agregarPatrocinador(sponsor5Ramboot);
-        sponsor5Ramboot.agregarEquipoPatrocinado(ramboot);
+        ramboot.agregarPatrocinador(redBull);
+        redBull.agregarEquipoPatrocinado(ramboot);
         
 //--------------------------------Equipo4------------------------------------------------------------
 
@@ -351,11 +348,6 @@ public class SimulacionMain {
         em.persist(sponsor6UCAM);
         Sponsor sponsor7UCAM = new Sponsor("JOMA");
         em.persist(sponsor7UCAM);
-      /*  Sponsor sponsor8UCAM = new Sponsor("Hummel");
-        em.persist(sponsor8UCAM);
-        Sponsor sponsor9UCAM = new Sponsor("CaixaBank");
-        em.persist(sponsor9UCAM); */
-
         
         // Asociar equipos y patrocinadores
         UCAM.agregarPatrocinador(sponsor1UCAM);
@@ -372,10 +364,7 @@ public class SimulacionMain {
         sponsor6UCAM.agregarEquipoPatrocinado(UCAM);
         UCAM.agregarPatrocinador(sponsor7UCAM);
         sponsor7UCAM.agregarEquipoPatrocinado(UCAM);
-       /* UCAM.agregarPatrocinador(sponsor8UCAM);
-        sponsor8UCAM.agregarEquipoPatrocinado(UCAM);
-        UCAM.agregarPatrocinador(sponsor9UCAM);
-        sponsor9UCAM.agregarEquipoPatrocinado(UCAM);*/
+
         hummel.agregarEquipoPatrocinado(UCAM);
         caixaBank.agregarEquipoPatrocinado(UCAM);
 
@@ -399,6 +388,39 @@ public class SimulacionMain {
         Jugador whiteinn = new Jugador("whiteinn", "Rumano", "03/10/2000", "Support");
         whiteinn.setEquipo(losHeretics);
         em.persist(whiteinn);
+        
+        // Sponsors
+        Sponsor sponsor1LosHeretics = new Sponsor("SanMiguel");
+        em.persist(sponsor1LosHeretics);
+        Sponsor sponsor2LosHeretics = new Sponsor("logitech");
+        em.persist(sponsor2LosHeretics);
+        Sponsor sponsor3LosHeretics = new Sponsor("SOCIOS.COM");
+        em.persist(sponsor3LosHeretics);
+        Sponsor sponsor5LosHeretics = new Sponsor("HYUNDAI");
+        em.persist(sponsor5LosHeretics);
+        Sponsor sponsor6LosHeretics = new Sponsor("SCARPWORLD");
+        em.persist(sponsor6LosHeretics);
+        Sponsor sponsor7LosHeretics = new Sponsor("noblechairs");
+        em.persist(sponsor7LosHeretics);
+        
+        losHeretics.agregarPatrocinador(sponsor1LosHeretics);
+        sponsor1LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(sponsor2LosHeretics);
+        sponsor2LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(sponsor3LosHeretics);
+        sponsor3LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(movistar);
+        movistar.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(sponsor5LosHeretics);
+        sponsor5LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(sponsor6LosHeretics);
+        sponsor6LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(sponsor7LosHeretics);
+        sponsor7LosHeretics.agregarEquipoPatrocinado(losHeretics);
+        losHeretics.agregarPatrocinador(redBull);
+        redBull.agregarEquipoPatrocinado(losHeretics);
+         
+//--------------------------------Equipo8------------------------------------------------------------
 
         Equipo giantX = new Equipo("GiantX");
         em.persist(giantX);
@@ -419,11 +441,59 @@ public class SimulacionMain {
         stend.setEquipo(giantX);
         em.persist(stend);
         
+        // Sponsors
+        Sponsor sponsor1GiantX = new Sponsor("EE");
+        em.persist(sponsor1GiantX);
+        Sponsor sponsor2GiantX = new Sponsor("BURGER KING");
+        em.persist(sponsor2GiantX);
+        Sponsor sponsor4GiantX = new Sponsor("KitKat");
+        em.persist(sponsor4GiantX);
+        Sponsor sponsor5GiantX = new Sponsor("HSBC");
+        em.persist(sponsor5GiantX);
+        Sponsor sponsor6GiantX = new Sponsor("MAGGI FUSIAN");
+        em.persist(sponsor6GiantX);
+        Sponsor sponsor8GiantX = new Sponsor("FITCHIN");
+        em.persist(sponsor8GiantX);
+        Sponsor sponsor9GiantX = new Sponsor("HOT WHEELS");
+        em.persist(sponsor9GiantX);
+        Sponsor sponsor10GiantX = new Sponsor("INZONE");
+        em.persist(sponsor10GiantX);
+        Sponsor sponsor11GiantX = new Sponsor("PCSPECIALIST");
+        em.persist(sponsor11GiantX);
+        Sponsor sponsor12GiantX = new Sponsor("Sybr");
+        em.persist(sponsor12GiantX);
+        
+        giantX.agregarPatrocinador(sponsor1GiantX);
+        sponsor1GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor2GiantX);
+        sponsor2GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(opel);
+        opel.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor4GiantX);
+        sponsor4GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor5GiantX);
+        sponsor5GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor6GiantX);
+        sponsor6GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(digi);
+        digi.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor8GiantX);
+        sponsor8GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor9GiantX);
+        sponsor9GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor10GiantX);
+        sponsor10GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor11GiantX);
+        sponsor11GiantX.agregarEquipoPatrocinado(giantX);
+        giantX.agregarPatrocinador(sponsor12GiantX);
+        sponsor12GiantX.agregarEquipoPatrocinado(giantX);
+        
+      //--------------------------------Equipo9------------------------------------------------------------
 
         Equipo movistarKOI = new Equipo("Movistar KOI");
         em.persist(movistarKOI);
         
-        Jugador marky = new Jugador("Marky", "Español", "23/09/2002", "Top");
+        Jugador marky = new Jugador("Markyu", "Español", "23/09/2002", "Top");
         marky.setEquipo(movistarKOI);
         em.persist(marky);
         Jugador noname = new Jugador("NoName", "Inglés", "15/08/2003", "Jungla");
@@ -438,6 +508,27 @@ public class SimulacionMain {
         Jugador marlon = new Jugador("marlon", "Polaco", "14/01/2004", "Support");
         marlon.setEquipo(movistarKOI);
         em.persist(marlon);
+        
+        // Sponsors
+        Sponsor sponsor1MovistarKOI = new Sponsor("KAPPA");
+        em.persist(sponsor1MovistarKOI);
+        Sponsor sponsor2MovistarKOI = new Sponsor("RISKETOS");
+        em.persist(sponsor2MovistarKOI);
+        Sponsor sponsor3MovistarKOI = new Sponsor("Peugeot");
+        em.persist(sponsor3MovistarKOI);
+        
+        movistarKOI.agregarPatrocinador(movistar);
+        movistar.agregarEquipoPatrocinado(movistarKOI);
+        movistarKOI.agregarPatrocinador(sponsor1MovistarKOI);
+        sponsor1MovistarKOI.agregarEquipoPatrocinado(movistarKOI);
+        movistarKOI.agregarPatrocinador(sponsor2MovistarKOI);
+        sponsor2MovistarKOI.agregarEquipoPatrocinado(movistarKOI);
+        opel.agregarEquipoPatrocinado(movistarKOI);
+        movistarKOI.agregarPatrocinador(opel);
+        movistarKOI.agregarPatrocinador(sponsor3MovistarKOI);
+        sponsor3MovistarKOI.agregarEquipoPatrocinado(movistarKOI);
+
+//--------------------------------Equipo10------------------------------------------------------------
 
         Equipo ZETA = new Equipo("ZETA");
         em.persist(ZETA);
@@ -457,7 +548,24 @@ public class SimulacionMain {
         Jugador bolyy1 = new Jugador("Bolyy1", "Español", "12/12/2000", "Support");
         bolyy1.setEquipo(ZETA);
         em.persist(bolyy1);
-
+        
+        // Sponsors
+        Sponsor sponsor1Zeta = new Sponsor("iberCaja");
+        em.persist(sponsor1Zeta);
+        Sponsor sponsor2Zeta = new Sponsor("ENERYETI");
+        em.persist(sponsor2Zeta);
+        Sponsor sponsor3Zeta = new Sponsor("Umbro");
+        em.persist(sponsor3Zeta);
+        
+        ZETA.agregarPatrocinador(sponsor1Zeta);
+        sponsor1Zeta.agregarEquipoPatrocinado(ZETA);
+        ZETA.agregarPatrocinador(sponsor2Zeta);
+        sponsor2Zeta.agregarEquipoPatrocinado(ZETA);
+        ZETA.agregarPatrocinador(sponsor3Zeta);
+        sponsor3Zeta.agregarEquipoPatrocinado(ZETA);
+        digi.agregarEquipoPatrocinado(ZETA);
+        ZETA.agregarPatrocinador(digi); */
+        
         em.getTransaction().commit();
         
         em.close();

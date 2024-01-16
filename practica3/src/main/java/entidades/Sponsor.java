@@ -10,6 +10,7 @@ import java.util.Set;
  *
  * @author David
  */
+
 @Entity
 @Table(name = "sponsor")
 public class Sponsor {
