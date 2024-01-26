@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="util.DataSourceJugador"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="util.CargarDatos"/>
+    <fullyQualifiedTypeName name="util.DataSourceEquipo"/>
+    <fullyQualifiedTypeName name="DAO.EquipoDAO"/>
+    <fullyQualifiedTypeName name="entidades.Jugador"/>
+</qualifiedTypeNameHistroy>

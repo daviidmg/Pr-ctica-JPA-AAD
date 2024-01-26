@@ -1,5 +1,9 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import DAO.EquipoDAO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,6 +31,10 @@ public class Competicion {
 	
 	@Column (name = "number_of_teams")
     private int numeroEquipos;
+	
+//	private List<Equipo> equipos;
+	
+//	private List<Partido> partidos;
     
     
 	public String getNombre() {
@@ -57,17 +65,70 @@ public class Competicion {
 	public Competicion() {
 	}
 	
-	public Competicion(String fechaCreacion) {
-		
-	}
-    
+	/*public Competicion(List<Equipo> equipos) {
+		this.equipos = equipos;
+	}*/
+	
     public Competicion(String nombre, String fechaCreacion, int numeroJornadas, int numeroEquipos) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.numeroJornadas = numeroJornadas;
         this.numeroEquipos = numeroEquipos;
     }
-	@Override
+    
+ /*   private List<Partido> generarPartidos() {
+    	List<Partido> partidosGenerados = new ArrayList<>();
+    	
+    	for (int i = 0; i < equipos.size(); i++) {
+    		for (int j = i + 1; j < equipos.size(); j++) {
+    			partidosGenerados.add(new Partido(equipos.get(i), equipos.get(j)));
+    			partidosGenerados.add(new Partido(equipos.get(j), equipos.get(i)));
+    		}
+    	}
+    	
+    	return partidosGenerados;
+    }*/
+    
+    /*public void simularJornada() {
+        for (Partido partido : partidos) {
+            Equipo ganador = partido.simularPartido();
+            actualizarResultados(ganador, partido.getEquipoLocal(), partido.getEquipoVisitante());
+        }
+    }*/
+    
+    private void actualizarResultados(Equipo ganador, Equipo equipoLocal, Equipo equipoVisitante) {
+        EquipoDAO equipoDAO = new EquipoDAO();
+
+        ganador.incrementarVictorias();
+        ganador.incrementarPartidosJugados();
+        equipoDAO.update(ganador);
+
+        equipoLocal.incrementarDerrotas();
+        equipoLocal.incrementarPartidosJugados();
+        equipoDAO.update(equipoLocal);
+
+        equipoVisitante.incrementarDerrotas();
+        equipoVisitante.incrementarPartidosJugados();
+        equipoDAO.update(equipoVisitante);
+    }
+    
+  /*  private void actualizarResultados(Equipo ganador, Equipo perdedor) {
+    	EquipoDAO equipoDAO = new EquipoDAO();
+    	
+    	if (ganador != null) {
+    		ganador.incrementarVictorias();
+    		ganador.incrementarPartidosJugados();
+    		equipoDAO.update(ganador);
+    	}
+    	
+    	if (perdedor != null) {
+    		perdedor.incrementarDerrotas();
+    		perdedor.incrementarPartidosJugados();
+    		equipoDAO.update(perdedor);
+    	}
+    }*/
+    
+    @Override
 	public String toString() {
 		return "Competicion [nombre= " + nombre + ", numero de equipos= " + numeroEquipos + " fecha de creacion= " + fechaCreacion
 				+ ", numero de jornadas= " + numeroJornadas + "]";

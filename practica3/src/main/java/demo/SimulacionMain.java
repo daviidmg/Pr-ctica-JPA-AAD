@@ -1,24 +1,61 @@
 package demo;
 
-import entidades.Competicion;
-import entidades.Equipo;
-import entidades.Jugador;
-import entidades.Sponsor;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import cargaDatos.CargarDatos;
 
 public class SimulacionMain {
 
 	public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+		
+        CargarDatos.cargarEquiposEnDB();
+        
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//CompeDAO compeDAO = new CompeDAO();
+        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
         EntityManager em = emf.createEntityManager();
         
         // Crear y persistir la compe
         em.getTransaction().begin();
 
-        Competicion SuperLiga = new Competicion("SuperLiga", "01/02/2012", 20, 10);
-        em.persist(SuperLiga);
+        Competicion superLiga = new Competicion("SuperLiga", "01/02/2012", 20, 10);
+        compeDAO.save(superLiga);
+        
+      //  em.persist(superLiga);
+        
+
+        
+        em.getTransaction().commit();
+        
+        em.close();
+        emf.close();    */
+	
+
+        
+        
         
 /*        // Sponsors comunes
         Sponsor caixaBank = new Sponsor("CaixaBank");
@@ -566,11 +603,6 @@ public class SimulacionMain {
         digi.agregarEquipoPatrocinado(ZETA);
         ZETA.agregarPatrocinador(digi); */
         
-        em.getTransaction().commit();
-        
-        em.close();
-        emf.close();    
-	}
-}
+
 
 

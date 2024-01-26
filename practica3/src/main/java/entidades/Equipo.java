@@ -7,6 +7,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,19 +41,19 @@ public class Equipo {
     private int derrotas;
     
     @Column(name = "matches")
-    private int jornadasJugadas = 0;
+    private int jornadasJugadas;
     
-	@OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL)
-    private Set<Jugador> listaJugadores;
+	@OneToMany(mappedBy = "equipo",cascade = CascadeType.ALL)
+    private Set<Jugador> listaJugadores= new HashSet<Jugador>();
 	
     // Relación Many-to-Many con la entidad Patrocinador
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },
+    			fetch = FetchType.EAGER)
     @JoinTable(name = "equipo_patrocinador", 
         joinColumns = @JoinColumn(name = "equipo_id"), 
         inverseJoinColumns = @JoinColumn(name = "patrocinador_id"))
-    private Set<Sponsor> patrocinadores;
-    
-    
+    private Set<Sponsor> patrocinadores=new HashSet<Sponsor>();
+ 
     public void setListaJugadores(List<Jugador> listaJugadores) {
 		this.listaJugadores.addAll(listaJugadores);
 	}
@@ -95,8 +96,8 @@ public class Equipo {
 		return patrocinadores;
 	}
 	
-	public void setPatrocinadores(Set<Sponsor> patrocinadores) {
-		this.patrocinadores = patrocinadores;
+	public void setPatrocinadores(List<Sponsor> patrocinadores) {
+		this.patrocinadores.addAll(patrocinadores);
 	}
 
 
@@ -107,18 +108,36 @@ public class Equipo {
 
     public Equipo(String nombre) {
         this.nombre = nombre;
-        this.patrocinadores = new HashSet<>();
+        this.victorias = 0;
+        this.derrotas = 0;
+        this.jornadasJugadas = 0;
     }
     
     public void agregarJugador(Jugador jugador) {
-        listaJugadores.add(jugador);
+        this.listaJugadores.add(jugador);
         jugador.setEquipo(this);
     }
     
-    // Método para agregar un patrocinador al equipo
+    // Métodos para agregar un patrocinador al equipo
     public void agregarPatrocinador(Sponsor patrocinador) {
-        patrocinadores.add(patrocinador);
+        this.patrocinadores.add(patrocinador);
         patrocinador.agregarEquipoPatrocinado(this);
     }
+    
+    public void incrementarVictorias() {
+    	this.victorias++;
+    }
+    
+    public void incrementarDerrotas() {
+    	this.derrotas++;
+    }
+    
+    public void incrementarPartidosJugados() {
+    	this.jornadasJugadas++;
+    }
+    
+    /*public void agregarPatrocinadorEspecifico(Sponsor sponsor) {
+        this.agregarPatrocinador(sponsor);
+    }*/
 }
 

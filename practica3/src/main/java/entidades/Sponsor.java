@@ -3,6 +3,7 @@ package entidades;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +35,10 @@ public class Sponsor {
     public Sponsor(String nombre) {
         this.nombre = nombre;
     }
+    public Sponsor(String nombre, List<Equipo> equipos) {
+        this.nombre = nombre;
+        this.equiposPatrocinados.addAll(equipos);
+    }
 
     public Long getId() {
         return id;
@@ -49,7 +54,7 @@ public class Sponsor {
 
     // Método para agregar un equipo a la colección
     public void agregarEquipoPatrocinado(Equipo equipo) {
-        equiposPatrocinados.add(equipo);
+        this.equiposPatrocinados.add(equipo);
         equipo.getPatrocinadores().add(this);
     }
 }

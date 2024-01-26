@@ -1,16 +1,38 @@
 package DAO;
 
+import java.util.List;
+
 import entidades.Equipo;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 
-public class EquipoDAO {
+
+public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+  /*  @Override
+    protected Class<Equipo> getEntityClass() {
+        return Equipo.class;
+    } */
+	
+}
 
-	    public void insertarEquipo(Equipo equipo) {
+/*	public static Equipo findEquipoByName(String nombre) {
+	        EntityManager em = getEmf().createEntityManager();
+
+	        try {
+	            Query query = em.createQuery("SELECT s FROM Equipo s WHERE s.nombre = :nombre");
+	            query.setParameter("nombre", nombre);
+
+	            List<Equipo> equipos = query.getResultList();
+
+	            return equipos.isEmpty() ? null : equipos.get(0);
+	        } finally {
+	            em.close();
+	        }
+	    }*/
+
+  
+	//private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+
+	 /*   public static void insertarEquipo(Equipo equipo) {
 	        EntityManager em = emf.createEntityManager();
 	        EntityTransaction transaction = em.getTransaction();
 
@@ -19,7 +41,9 @@ public class EquipoDAO {
 	            em.persist(equipo);
 	            transaction.commit();
 	            System.out.println("Equipo insertado en la base de datos: " + equipo.getNombre());
-	        } catch (Exception e) {
+	        }catch (EntityExistsException entityExists) {
+	        	System.err.println("ERROR al persistir la entidad: "+equipo.getNombre()+" - "+entityExists.getLocalizedMessage()+"\nCause by: "+entityExists.getCause());
+	    	}catch (Exception e) {
 	            if (transaction != null && transaction.isActive()) {
 	                transaction.rollback();
 	            }
@@ -29,5 +53,5 @@ public class EquipoDAO {
 	                em.close();
 	            }
 	        }
-	    }
-}
+	    } */
+
