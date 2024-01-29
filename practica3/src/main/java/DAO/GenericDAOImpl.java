@@ -9,8 +9,9 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
-public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
-	
+public class GenericDAOImpl<T> implements GenericDAO<T> {
+    private final Class<T> entityClass;
+    
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
 	
     
@@ -18,10 +19,15 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
 		return emf;
 	}
 	
-  //  protected abstract Class<T> getEntityClass();
+    protected Class<T> getEntityClass() {
+		return entityClass;
+	}
+    
+    public GenericDAOImpl(Class<T> entityClass) {
+        this.entityClass = entityClass;
+    }
 
 
-    @Override
     public void save(T entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
@@ -41,7 +47,6 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
         }
     }
 
-    @Override
     public void update(T entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
@@ -58,7 +63,7 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
         }
     }
 
-	@Override
+	
 	public void delete(T entity) {
         try (EntityManager em = emf.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
@@ -81,25 +86,16 @@ public abstract class GenericDAOImpl<T> implements GenericDAO<T> {
         }
 	}
 
-
-
-/*	@Override
 	public List<T> findAll() {
+		  
 		try (EntityManager em = emf.createEntityManager()) {
-			EntityTransaction transaction = em.getTransaction();
 			
-	        try {
-	            // Utilizar JPQL para realizar la consulta
-	            String jpql = "SELECT e FROM " + getEntityClass().getSimpleName() + " e";
-	            TypedQuery<T> query = em.createQuery(jpql, getClass());
-	            return query.getResultList();
-	        } finally {
-	            if (em != null) {
-	                em.close();
-	            }
+			String queryString = "SELECT e FROM " + getEntityClass().getSimpleName() + " e";
+			TypedQuery<T> query = em.createQuery(queryString, getEntityClass());
+			return query.getResultList();
+			
 	        }
-	    }*/
-	
+	}
 }
 
 

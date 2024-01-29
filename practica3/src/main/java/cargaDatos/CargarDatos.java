@@ -15,6 +15,7 @@ import entidades.Competicion;
 import entidades.Equipo;
 import entidades.Jugador;
 import entidades.Sponsor;
+import jakarta.persistence.EntityManager;
 
 public class CargarDatos {
 		
@@ -31,7 +32,7 @@ public class CargarDatos {
     	SponsorDAO sponsorDAO = new SponsorDAO();
 		CompeDAO compeDAO = new CompeDAO();
     	
-        Competicion superLiga = new Competicion("SuperLiga", "01/02/2012", 20, 10);
+        Competicion superLiga = new Competicion("SuperLiga", "01/02/2012", 9, 10);
         compeDAO.save(superLiga);
     	
     	for (Equipo equipo : equipos) {
@@ -48,16 +49,17 @@ public class CargarDatos {
     		for (Jugador jugador : jugadores) {
     			
     			jugador.setEquipo(equipo);
-    			
+    			equipo.agregarJugador(jugador);
+
     			if (jugador.getId() != null) {
                     jugadorDAO.update(jugador);
                     
                 } else {
                     jugadorDAO.save(jugador);
-                    
+                 
                 }
-    			equipo.agregarJugador(jugador);
-    		/*	jugadorDAO.save(jugador);
+
+    			/*	jugadorDAO.save(jugador);
     			equipo.agregarJugador(jugador);*/
     		}
     		
@@ -76,6 +78,7 @@ public class CargarDatos {
                     
                 }
 
+                
     		
                 /*sponsorDAO.save(sponsor);
     			sponsor.agregarEquipoPatrocinado(equipo);

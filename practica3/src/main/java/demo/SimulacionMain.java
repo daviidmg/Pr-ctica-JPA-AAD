@@ -1,14 +1,52 @@
 package demo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import DAO.CompeDAO;
+import DAO.EquipoDAO;
 import cargaDatos.CargarDatos;
+import entidades.Competicion;
+import entidades.Equipo;
 
 public class SimulacionMain {
 
 	public static void main(String[] args) {
-		
+		EquipoDAO equipoDAO = new EquipoDAO();
+		CompeDAO compeDAO = new CompeDAO();
         CargarDatos.cargarEquiposEnDB();
         
-	}
+		Competicion competicion = compeDAO.findAll().get(0);
+
+		 // Obtener la lista de equipos de la competición
+
+        // Simular jornadas
+        for (int jornada = 1; jornada <= competicion.getNumeroJornadas(); jornada++) {
+            System.out.println("Simulando jornada " + jornada);
+
+            // Barajar aleatoriamente la lista de equipos
+            List<Equipo> equiposBarajados = equipoDAO.findAll();
+            Collections.shuffle(equiposBarajados);
+
+            // Crear y simular partidos
+            for (int i = 0; i < equiposBarajados.size(); i += 2) {
+                Equipo equipoLocal = equiposBarajados.get(i);
+                Equipo equipoVisitante = equiposBarajados.get(i + 1);
+
+                // Simular el partido
+                Equipo ganador = (Math.random() < 0.5) ? equipoLocal : equipoVisitante;
+                Equipo perdedor = (ganador.equals(equipoLocal)) ? equipoVisitante : equipoLocal;
+
+                // Imprimir resultados
+                System.out.println("Partido: " + equipoLocal.getNombre() + " vs " + equipoVisitante.getNombre() +
+                        " - Resultado: Ganador: " + ganador.getNombre());
+                Competicion.actualizarResultados(ganador, perdedor);
+            }
+        }
+
+        System.out.println("Temporada simulada con éxito.");
+    }
 }
 
 
@@ -27,8 +65,33 @@ public class SimulacionMain {
 
 
 
+// Simular jornadas
+/*      for (int jornada = 1; jornada <= competicion.getNumeroJornadas(); jornada++) {
+      System.out.println("Simulando jornada " + jornada);
 
+      // Crear y simular partidos
+      for (int i = 0; i < equipos.size(); i++) {
+          Equipo equipoLocal = equipos.get(i);
 
+          // Seleccionar un equipo visitante diferente en cada jornada
+          int indiceEquipoVisitante = (i + jornada - 1) % (equipos.size() - 1);
+          if (indiceEquipoVisitante >= i) {
+              indiceEquipoVisitante++;
+          }
+          Equipo equipoVisitante = equipos.get(indiceEquipoVisitante);
+
+          // Evitar que un equipo juegue consigo mismo
+          if (!equipoLocal.equals(equipoVisitante)) {
+              // Simular el partido
+              Equipo ganador = (Math.random() < 0.5) ? equipoLocal : equipoVisitante;
+              Equipo perdedor = (ganador.equals(equipoLocal)) ? equipoVisitante : equipoLocal;
+
+              // Imprimir resultados
+              System.out.println("Partido: " + equipoLocal.getNombre() + " vs " + equipoVisitante.getNombre() +
+                      " - Resultado: Ganador: " + ganador.getNombre());
+              Competicion.actualizarResultados(ganador, perdedor);
+          }
+      }*/
 
 
 

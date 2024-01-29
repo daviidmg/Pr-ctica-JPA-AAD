@@ -11,6 +11,9 @@ import jakarta.persistence.Query;
 
 public class SponsorDAO extends GenericDAOImpl<Sponsor> {
 	
+    public SponsorDAO() {
+        super(Sponsor.class);
+    }
 	
 }
 

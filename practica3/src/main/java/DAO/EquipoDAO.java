@@ -7,12 +7,20 @@ import entidades.Equipo;
 
 public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	
-  /*  @Override
-    protected Class<Equipo> getEntityClass() {
-        return Equipo.class;
-    } */
+    public EquipoDAO() {
+        super(Equipo.class);
+    }
+    
+	 @Override
+	 protected Class<Equipo> getEntityClass() {
+	     return Equipo.class;
+	 } 
 	
 }
+
+
+/* */
+
 
 /*	public static Equipo findEquipoByName(String nombre) {
 	        EntityManager em = getEmf().createEntityManager();

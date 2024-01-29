@@ -136,8 +136,5 @@ public class Equipo {
     	this.jornadasJugadas++;
     }
     
-    /*public void agregarPatrocinadorEspecifico(Sponsor sponsor) {
-        this.agregarPatrocinador(sponsor);
-    }*/
 }
 
