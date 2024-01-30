@@ -1,5 +1,8 @@
 package entidades;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import DAO.EquipoDAO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +18,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "competition")
 public class Competicion {
+    private static final Logger logger = LogManager.getLogger(Competicion.class);
 	
 	@Id
     @Column (name = "name")
@@ -77,13 +81,14 @@ public class Competicion {
             ganador.incrementarVictorias();
             ganador.incrementarPartidosJugados();
             equipoDAO.update(ganador);
+            logger.info("Actualizadas estadísticas del equipo ganador: {}", ganador);
         }
 
         // Incrementar las derrotas y partidos jugados del equipo perdedor
         perdedor.incrementarDerrotas();
         perdedor.incrementarPartidosJugados();
         equipoDAO.update(perdedor);
-
+        logger.info("Actualizadas estadísticas del equipo perdedor: {}", perdedor);
     }
         
     @Override

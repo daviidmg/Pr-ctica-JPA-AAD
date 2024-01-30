@@ -1,5 +1,10 @@
 package entidades;
 
+import java.time.LocalDate;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +23,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "player")
 public class Jugador {
-	
+    private static final Logger logger = LogManager.getLogger(Jugador.class);
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +36,7 @@ public class Jugador {
     private String nacionalidad;
 
     @Column(name = "birth_date")
-    private String fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
     @Column(name = "position")
     private String posicion;
@@ -64,11 +70,11 @@ public class Jugador {
 		this.nacionalidad = nacionalidad;
 	}
 
-	public String getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(String fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
@@ -85,7 +91,7 @@ public class Jugador {
 
     }
 
-	public Jugador(String nombre, String nacionalidad, String fechaNacimiento, String posicion) {
+	public Jugador(String nombre, String nacionalidad, LocalDate fechaNacimiento, String posicion) {
         this.nombre = nombre;
         this.nacionalidad = nacionalidad;
         this.fechaNacimiento = fechaNacimiento;
@@ -98,5 +104,9 @@ public class Jugador {
 					+ ", nacido en: " + fechaNacimiento + ", juega en: " + equipo + " de: " + posicion;
 		}
 	
+    public void logJugadorInfo() {
+        logger.info("Jugador creado - ID: {}, Nombre: {}, Nacionalidad: {}, Fecha de Nacimiento: {}, Posición: {}, Equipo: {}",
+                id, nombre, nacionalidad, fechaNacimiento, posicion, equipo.getNombre());
+    }
 }
 

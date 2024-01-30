@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +28,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "team")
 public class Equipo {
+    private static final Logger logger = LogManager.getLogger(Equipo.class);
+    						
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +53,7 @@ public class Equipo {
 	
     // Relación Many-to-Many con la entidad Patrocinador
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },
-    			fetch = FetchType.EAGER)
+    			fetch = FetchType.LAZY)
     @JoinTable(name = "equipo_patrocinador", 
         joinColumns = @JoinColumn(name = "equipo_id"), 
         inverseJoinColumns = @JoinColumn(name = "patrocinador_id"))
@@ -126,14 +131,17 @@ public class Equipo {
     
     public void incrementarVictorias() {
     	this.victorias++;
+        logger.info("Incrementada la cantidad de victorias del equipo {}: {}", this.nombre, this.victorias);
     }
     
     public void incrementarDerrotas() {
     	this.derrotas++;
+        logger.info("Incrementada la cantidad de derrotas del equipo {}: {}", this.nombre, this.derrotas);
     }
     
     public void incrementarPartidosJugados() {
     	this.jornadasJugadas++;
+        logger.info("Incrementada la cantidad de partidos jugados del equipo {}: {}", this.nombre, this.jornadasJugadas);
     }
     
 }

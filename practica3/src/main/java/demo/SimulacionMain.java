@@ -1,27 +1,41 @@
 package demo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import DAO.CompeDAO;
-import DAO.EquipoDAO;
 import cargaDatos.CargarDatos;
-import entidades.Competicion;
-import entidades.Equipo;
+import util.SimularJornada;
 
 public class SimulacionMain {
 
 	public static void main(String[] args) {
-		EquipoDAO equipoDAO = new EquipoDAO();
-		CompeDAO compeDAO = new CompeDAO();
         CargarDatos.cargarEquiposEnDB();
-        
-		Competicion competicion = compeDAO.findAll().get(0);
+        SimularJornada.simularCampeonato();
+	}
+}
+   
 
-		 // Obtener la lista de equipos de la competición
 
-        // Simular jornadas
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 		EquipoDAO equipoDAO = new EquipoDAO();
+			CompeDAO compeDAO = new CompeDAO(); 
+      Competicion competicion = compeDAO.findAll().get(0);  
+       // Simular jornadas
         for (int jornada = 1; jornada <= competicion.getNumeroJornadas(); jornada++) {
             System.out.println("Simulando jornada " + jornada);
 
@@ -46,8 +60,8 @@ public class SimulacionMain {
         }
 
         System.out.println("Temporada simulada con éxito.");
-    }
-}
+    }*/
+
 
 
 

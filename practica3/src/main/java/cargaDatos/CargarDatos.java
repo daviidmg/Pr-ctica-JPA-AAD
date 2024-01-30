@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import DAO.CompeDAO;
 import DAO.EquipoDAO;
 import DAO.JugadorDAO;
@@ -15,15 +18,18 @@ import entidades.Competicion;
 import entidades.Equipo;
 import entidades.Jugador;
 import entidades.Sponsor;
-import jakarta.persistence.EntityManager;
+/**
+ * Clase encargada de cargar datos (equipos, jugadores y sponsors) en la base de datos.
+ * Se utiliza para inicializar la base de datos con información predeterminada.
+ *
+ * @author David
+ */
+public class CargarDatos {	 
+    private static final Logger LOGGER = LogManager.getLogger(CargarDatos.class.getName());
 
-public class CargarDatos {
-		
-    public CargarDatos() {
-    
-    }
-    
     public static void cargarEquiposEnDB() {
+        LOGGER.info("Iniciando carga de datos en la base de datos...");
+
     	List<Equipo> equipos = DataSourceEquipo.getEquipos();
     	Map<String, Set<Jugador>> jugadoresPorEquipo = DataSourceJugador.getJugadoresPorEquipo();
     	Map<String, Set<Sponsor>> sponsorsPorEquipo = DataSourceSponsor.getSponsorsPorEquipo();
@@ -36,6 +42,7 @@ public class CargarDatos {
         compeDAO.save(superLiga);
     	
     	for (Equipo equipo : equipos) {
+            LOGGER.info("Insertando equipo en la base de datos: " + equipo.getNombre());
 			// Insertar equipo
     		equipoDAO.save(equipo);
     		
@@ -46,8 +53,8 @@ public class CargarDatos {
     		Set<Sponsor> sponsors = sponsorsPorEquipo.get(equipo.getNombre());
     		
     		//Insertar Jugadores
-    		for (Jugador jugador : jugadores) {
-    			
+    		for (Jugador jugador : jugadores) { 
+                LOGGER.info("Insertando jugador en la base de datos: " + jugador.getNombre());
     			jugador.setEquipo(equipo);
     			equipo.agregarJugador(jugador);
 
@@ -55,128 +62,26 @@ public class CargarDatos {
                     jugadorDAO.update(jugador);
                     
                 } else {
-                    jugadorDAO.save(jugador);
-                 
+                    jugadorDAO.save(jugador);                
                 }
-
-    			/*	jugadorDAO.save(jugador);
-    			equipo.agregarJugador(jugador);*/
-    		}
-    		
-    		for (Sponsor sponsor : sponsors) {
-    			
+    		} 		
+    		for (Sponsor sponsor : sponsors) {   	
+                LOGGER.info("Insertando sponsor en la base de datos: " + sponsor.getNombre());
     			sponsor.agregarEquipoPatrocinado(equipo);
     			equipo.agregarPatrocinador(sponsor);
-
 
                 // Si el sponsor ya está en la base de datos, actualizar en lugar de guardar
                 if (sponsor.getId() != null) {
                     sponsorDAO.update(sponsor);
                     
                 } else {
-                    sponsorDAO.save(sponsor);
-                    
-                }
-
-                
+                    sponsorDAO.save(sponsor);                    
+                }            			
+    		}    	
     		
-                /*sponsorDAO.save(sponsor);
-    			sponsor.agregarEquipoPatrocinado(equipo);
-    			equipo.agregarPatrocinador(sponsor);*/
-    			
-    		}
-    	}
+    		equipoDAO.update(equipo);
+    	}   	
     	
+        LOGGER.info("Carga de datos completada con éxito.");
     }
 }
- /*       List<Equipo> equipos = DataSourceEquipo.getEquipos();
-        List<Sponsor> sponsorsComunes= DataSourceSponsor.getSponsorsRepetidos();
-        
-        for(Sponsor patrocinador: DataSourceSponsor.getSponsorsRepetidos()) {
-        	SponsorDAO.insertarSponsor(patrocinador);
-        }
-
-        for (Equipo equipo : equipos) {
-        	switch (equipo.getNombre()) {
-			case "Case Esports":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresCase());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsCase());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(1));
-				break;
-			
-			case "Barça Esports":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresBarca());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsBarca());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(0));
-				break;
-			
-			case "Ramboot":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresRamboot());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsRamboot());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(2));
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(3));
-				break;
-
-			case "Rebels":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresRebels());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsRebels());
-				break;
-				
-			case "Guasones":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresGuasones());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsGuasones());
-				break;
-				
-			case "UCAM":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresUCAM());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsUCAM());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(0));
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(1));
-				break;
-				
-			case "Los Heretics":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresLosHeretics());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsLosHeretics());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(2));
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(4));
-				break;
-				
-			case "GiantX":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresGiantX());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsGiantX());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(3));
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(5));
-				break;
-				
-			case "Movistar KOI":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresMovistarKoi());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsMovistarKOI());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(4));
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(5));
-				break;
-				
-			case "ZETA":
-				equipo.setListaJugadores(DataSourceJugador.getJugadoresZeta());
-				equipo.setPatrocinadores(DataSourceSponsor.getSponsorsZETA());
-			//	equipo.agregarPatrocinadorEspecifico(DataSourceSponsor.getSponsorsRepetidos().get(3));
-				break;
-				
-			default:
-				break;
-			}
-        	
-        	//Asignar jugadores a su equipo
-            for (Jugador jugador : equipo.getListaJugadores()) {
-                jugador.setEquipo(equipo);
-                equipo.agregarJugador(jugador);
-            }
-            
-            for (Sponsor sponsor : equipo.getPatrocinadores()) {
-            	sponsor.agregarEquipoPatrocinado(equipo);
-            	equipo.agregarPatrocinador(sponsor);
-            }
-            
-        	EquipoDAO.insertarEquipo(equipo);
-            
-            
-        }  */  

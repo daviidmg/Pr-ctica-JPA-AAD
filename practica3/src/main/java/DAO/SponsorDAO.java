@@ -1,14 +1,12 @@
 package DAO;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dataSource.DataSourceSponsor;
 import entidades.Sponsor;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
+/**
+ * Clase DAO para la entidad Sponsor.
+ * Se encarga de las operaciones de acceso a datos relacionadas con los sponsors.
+ *
+ *@author David
+ */
 public class SponsorDAO extends GenericDAOImpl<Sponsor> {
 	
     public SponsorDAO() {

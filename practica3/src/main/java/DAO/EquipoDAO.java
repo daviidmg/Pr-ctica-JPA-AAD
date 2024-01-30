@@ -1,10 +1,12 @@
 package DAO;
 
-import java.util.List;
-
 import entidades.Equipo;
-
-
+/**
+ * Clase DAO para la entidad Equipo.
+ * Se encarga de las operaciones de acceso a datos relacionadas con los equipos.
+ *
+ *@author David
+ */
 public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	
     public EquipoDAO() {

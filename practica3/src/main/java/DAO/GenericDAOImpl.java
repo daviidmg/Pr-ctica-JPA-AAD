@@ -11,7 +11,6 @@ import jakarta.persistence.TypedQuery;
 
 public class GenericDAOImpl<T> implements GenericDAO<T> {
     private final Class<T> entityClass;
-    
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
 	
     

@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Esta clase representa un patrocinador en la competición.
  *
@@ -15,6 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "sponsor")
 public class Sponsor {
+    private static final Logger logger = LogManager.getLogger(Sponsor.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,5 +60,10 @@ public class Sponsor {
     public void agregarEquipoPatrocinado(Equipo equipo) {
         this.equiposPatrocinados.add(equipo);
         equipo.getPatrocinadores().add(this);
+        logger.info("Equipo '{}' agregado a la colección de equipos patrocinados por '{}'.", equipo.getNombre(), this.nombre);
+    }
+    
+    public void logSponsorInfo() {
+        logger.info("Patrocinador creado - ID: {}, Nombre: {}", id, nombre);
     }
 }
