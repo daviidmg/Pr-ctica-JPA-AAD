@@ -1,6 +1,15 @@
 package DAO;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import entidades.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 /**
  * Clase DAO para la entidad Equipo.
  * Se encarga de las operaciones de acceso a datos relacionadas con los equipos.
@@ -8,7 +17,8 @@ import entidades.Equipo;
  *@author David
  */
 public class EquipoDAO extends GenericDAOImpl<Equipo> {
-	
+    private static final Logger LOGGER = LogManager.getLogger(EquipoDAO.class);	
+
     public EquipoDAO() {
         super(Equipo.class);
     }
@@ -18,50 +28,84 @@ public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	     return Equipo.class;
 	 } 
 	
-}
-
-
-/* */
-
-
-/*	public static Equipo findEquipoByName(String nombre) {
-	        EntityManager em = getEmf().createEntityManager();
-
+	    public Equipo findById(Long id) {
+	        EntityManager entityManager = getEmf().createEntityManager();
 	        try {
-	            Query query = em.createQuery("SELECT s FROM Equipo s WHERE s.nombre = :nombre");
+	            return entityManager.find(Equipo.class, id);
+	        } catch (Exception e) {
+	            LOGGER.error("Error al buscar equipo por ID: {}", e.getMessage());
+	            throw e; // Puedes manejar la excepción según tus necesidades
+	        } finally {
+	            entityManager.close();
+	        }
+	    }
+	    
+	    public Equipo findByNombre(String nombre) {
+	        EntityManager entityManager = getEmf().createEntityManager();
+	        try {
+	            String jpql = "SELECT e FROM Equipo e LEFT JOIN FETCH e.listaJugadores WHERE e.nombre = :nombre";
+	            TypedQuery<Equipo> query = entityManager.createQuery(jpql, Equipo.class);
 	            query.setParameter("nombre", nombre);
-
-	            List<Equipo> equipos = query.getResultList();
-
-	            return equipos.isEmpty() ? null : equipos.get(0);
+	            return query.getSingleResult();
+	        } catch (NoResultException e) {
+	            LOGGER.warn("No se encontró ningún equipo con el nombre: {}", nombre);
+	            return null;
 	        } finally {
-	            em.close();
+	            entityManager.close();
 	        }
-	    }*/
+	    }
+	    
+	    public List<Equipo> obtenerClasificacion() {
+	        EntityManager entityManager = null;
 
-  
-	//private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("SuperLiga");
+	        try  {
+	            entityManager = getEmf().createEntityManager();
+	            entityManager.getTransaction().begin();
 
-	 /*   public static void insertarEquipo(Equipo equipo) {
-	        EntityManager em = emf.createEntityManager();
-	        EntityTransaction transaction = em.getTransaction();
+	            // Consulta JPQL para obtener la clasificación de los equipos
+	            String jpql = "SELECT e FROM Equipo e ORDER BY e.victorias DESC";
+	            TypedQuery<Equipo> query = entityManager.createQuery(jpql, Equipo.class);
+	            List<Equipo> clasificacion = query.getResultList();
 
-	        try {
-	            transaction.begin();
-	            em.persist(equipo);
-	            transaction.commit();
-	            System.out.println("Equipo insertado en la base de datos: " + equipo.getNombre());
-	        }catch (EntityExistsException entityExists) {
-	        	System.err.println("ERROR al persistir la entidad: "+equipo.getNombre()+" - "+entityExists.getLocalizedMessage()+"\nCause by: "+entityExists.getCause());
-	    	}catch (Exception e) {
-	            if (transaction != null && transaction.isActive()) {
-	                transaction.rollback();
+	            entityManager.getTransaction().commit();
+
+	            return clasificacion;
+
+	        } catch (Exception e) {
+	            if (entityManager != null && entityManager.getTransaction().isActive()) {
+	                entityManager.getTransaction().rollback();
 	            }
-	            e.printStackTrace();
+	            LOGGER.error("Error al obtener la clasificación de los equipos", e);
 	        } finally {
-	            if (em != null) {
-	                em.close();
+	            if (entityManager != null) {
+	                entityManager.close();
 	            }
 	        }
-	    } */
 
+	        return Collections.emptyList();
+	    }
+	    
+	    public List<Equipo> findAllOrderedByPoints(int limit, boolean ascending) {
+	        EntityManager entityManager = null;
+
+	        try  {
+	            entityManager = getEmf().createEntityManager();
+	            entityManager.getTransaction().begin();
+	            String jpql = "SELECT e FROM Equipo e ORDER BY e.victorias " + (ascending ? "ASC" : "DESC");
+	            TypedQuery<Equipo> query = entityManager.createQuery(jpql, Equipo.class);
+	            query.setMaxResults(limit);
+	            
+	            return query.getResultList();
+	        } catch (Exception e) {
+	            if (entityManager != null && entityManager.getTransaction().isActive()) {
+	                entityManager.getTransaction().rollback();
+	            }
+	            LOGGER.error("Error al obtener la clasificación de los equipos", e);
+	            throw e;
+	        } finally {
+	            if (entityManager != null) {
+	                entityManager.close();
+	            }
+	        }
+	    }
+}

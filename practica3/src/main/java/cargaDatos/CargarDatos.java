@@ -49,7 +49,7 @@ public class CargarDatos {
     		//Obtener jugadores por equipo
     		Set<Jugador> jugadores = jugadoresPorEquipo.get(equipo.getNombre());
     		
-    		//Obtener jugadores por equipo
+    		//Obtener sponsors por equipo
     		Set<Sponsor> sponsors = sponsorsPorEquipo.get(equipo.getNombre());
     		
     		//Insertar Jugadores

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import DAO.CompeDAO;
 import DAO.EquipoDAO;
+import demo.ConsultasCompeticion;
 import entidades.Competicion;
 import entidades.Equipo;
 /**
@@ -46,6 +47,15 @@ public class SimularJornada {
                 // Imprimir resultados
                 logger.info("Partido: {} vs {} - Resultado: Ganador: {}", equipoLocal.getNombre(), equipoVisitante.getNombre(), ganador.getNombre());
                 Competicion.actualizarResultados(ganador, perdedor);
+            }
+            
+         // Mostrar clasificación en momentos específicos
+            if (jornada == 1) {
+                ConsultasCompeticion.visualizarClasificacion("Inicio");
+            } else if (jornada == competicion.getNumeroJornadas() / 2) {
+                ConsultasCompeticion.visualizarClasificacion("Mitad");
+            } else if (jornada == competicion.getNumeroJornadas()) {
+                ConsultasCompeticion.visualizarClasificacion("Final");
             }
         }
         logger.info("Temporada simulada con éxito.");

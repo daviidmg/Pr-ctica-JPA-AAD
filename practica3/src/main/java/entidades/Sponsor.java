@@ -66,4 +66,10 @@ public class Sponsor {
     public void logSponsorInfo() {
         logger.info("Patrocinador creado - ID: {}, Nombre: {}", id, nombre);
     }
+    
+    public String toString() {
+        return "Sponsor{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' + '}';
+    }
 }

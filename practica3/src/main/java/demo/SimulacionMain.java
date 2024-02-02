@@ -1,6 +1,8 @@
 package demo;
 
 import cargaDatos.CargarDatos;
+import util.SimularConsultas;
+import util.SimularFichaje;
 import util.SimularJornada;
 
 public class SimulacionMain {
@@ -8,6 +10,9 @@ public class SimulacionMain {
 	public static void main(String[] args) {
         CargarDatos.cargarEquiposEnDB();
         SimularJornada.simularCampeonato();
+        SimularFichaje.simularVentanaFichajes();
+        SimularConsultas.lanzarConsultas();
+              
 	}
 }
    

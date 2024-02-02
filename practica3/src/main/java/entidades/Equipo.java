@@ -7,6 +7,8 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import DAO.EquipoDAO;
+import DAO.JugadorDAO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +30,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "team")
 public class Equipo {
+    private static EquipoDAO equipoDAO = new EquipoDAO();
+    private static JugadorDAO jugadorDAO = new JugadorDAO();
     private static final Logger logger = LogManager.getLogger(Equipo.class);
     						
 
@@ -48,7 +52,7 @@ public class Equipo {
     @Column(name = "matches")
     private int jornadasJugadas;
     
-	@OneToMany(mappedBy = "equipo",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "equipo",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Jugador> listaJugadores= new HashSet<Jugador>();
 	
     // Relación Many-to-Many con la entidad Patrocinador
@@ -68,7 +72,19 @@ public class Equipo {
 	public String getNombre() {
 		return nombre;
 	}
-
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setListaJugadores(Set<Jugador> listaJugadores) {
+		this.listaJugadores = listaJugadores;
+	}
+	public void setPatrocinadores(Set<Sponsor> patrocinadores) {
+		this.patrocinadores = patrocinadores;
+	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -144,5 +160,90 @@ public class Equipo {
         logger.info("Incrementada la cantidad de partidos jugados del equipo {}: {}", this.nombre, this.jornadasJugadas);
     }
     
+	
+    public void altaJugadorNuevo(Jugador jugador) {
+    	agregarJugador(jugador);
+    	
+    	jugador.setEquipo(this);
+    	
+    	jugador.setNuevaIncorporacion(true);
+    	
+    	equipoDAO.update(this);
+    	jugadorDAO.update(jugador);
+    	
+        logger.info("El equipo {} ha fichado al jugador {}.", getNombre(), jugador.getNombre());
+
+    }
+	
+    public void ficharJugador(Jugador jugador) {
+        // Agregar al jugador al equipo actual
+        agregarJugador(jugador);
+        
+        // Establecer al equipo como el nuevo equipo del jugador
+        jugador.setEquipo(this);
+        jugador.setFichaje(true);
+        
+        // Actualizar en la base de datos
+        equipoDAO.update(this);
+        jugadorDAO.update(jugador);
+
+        logger.info("El equipo {} ha fichado al jugador {}.", getNombre(), jugador.getNombre());
+    }
+    
+    	public void baja(Jugador jugador) {
+        	jugadorDAO.delete(jugador);
+
+    		eliminarJugador(jugador);
+        	jugador.setEquipo(null);
+        	
+        	equipoDAO.update(this);
+
+            logger.info("El equipo {} ha prescindido del jugador {}.", getNombre(), jugador.getNombre());
+    	}
+       
+    	public void eliminarJugador(Jugador jugador) {
+            if (listaJugadores != null) {
+                listaJugadores.remove(jugador);
+                jugador.setEquipo(null); // Desasociar el equipo del jugador
+            }
+        }
+    @Override
+    public String toString() {
+        return "Equipo{id=" + id + ", nombre='" + nombre + "'}";
+    }
+    
 }
+ /*   public void fichar(Jugador jugador, EquipoDAO equipoDAO, JugadorDAO jugadorDAO) {
+        if (jugador != null && jugador.getEquipo() != null && !jugador.getEquipo().equals(this)) {
+            Equipo equipoOrigen = jugador.getEquipo();
+
+            // Eliminar al jugador del equipo de origen
+            equipoOrigen.eliminarJugador(jugador);
+
+            // Establecer al jugador como fichaje en el equipo actual
+            jugador.setFichaje(true);
+
+            // Agregar al jugador al equipo actual
+            this.agregarJugador(jugador);
+
+            // Actualizar en db
+            equipoDAO.update(equipoOrigen);
+            equipoDAO.update(this);
+            jugadorDAO.update(jugador);
+
+            logger.info("El equipo {} ha fichado al jugador {} del equipo {}", this.getNombre(), jugador.getNombre(), equipoOrigen.getNombre());
+
+        } else {
+            logger.error("No se puede realizar el fichaje. El jugador o su equipo actual son nulos.");
+        }
+    }
+
+    
+    private void eliminarJugador(Jugador jugador) {
+        if (jugador != null && this.listaJugadores.contains(jugador)) {
+            this.listaJugadores.remove(jugador);
+            jugador.setEquipo(null);
+        }
+    }*/
+
 
