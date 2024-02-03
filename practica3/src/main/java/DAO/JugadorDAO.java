@@ -1,7 +1,9 @@
 package DAO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +36,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             return entityManager.find(Jugador.class, id);
         } catch (Exception e) {
             LOGGER.error("Error al buscar jugador por ID: {}", e.getMessage());
-            throw e; // Puedes manejar la excepción según tus necesidades
+            throw e; 
         } finally {
             entityManager.close();
         }
@@ -140,7 +142,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             }
         }
 
-        return 0L; // Otra opción podría ser devolver null y manejarlo en la lógica superior
+        return 0L;
     }
     
     public long countTotalJugadores() {
@@ -162,7 +164,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
                 entityManager.getTransaction().rollback();
             }
             LOGGER.error("Error al contar el total de jugadores", e);
-            throw e; // Deberías relanzar la excepción para que el código que lo llamó pueda manejarla si es necesario.
+            throw e; 
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -192,7 +194,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
         }
     }
     
-    public List<Jugador> findJugadoresByCriteria(String attribute, Object value, boolean orderByDesc) {
+    public List<Jugador> findJugadoresByCriteria(Map<String, Object> criteriaMap, boolean orderByDesc) {
         EntityManager entityManager = null;
 
         try {
@@ -203,27 +205,36 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             CriteriaQuery<Jugador> query = criteriaBuilder.createQuery(Jugador.class);
             Root<Jugador> root = query.from(Jugador.class);
 
-            if ("edad".equals(attribute)) {
-                // Calcular la edad y añadir la condición a la consulta
-                int edadBuscada = (int) value;
-                Path<LocalDate> fechaNacimientoPath = root.get("fechaNacimiento");
+            List<Predicate> predicates = new ArrayList<>();
 
-                Expression<Integer> edadExpression = criteriaBuilder.function(
-                        "YEAR",
-                        Integer.class,
-                        fechaNacimientoPath
-                );
+            for (Map.Entry<String, Object> entry : criteriaMap.entrySet()) {
+                String attribute = entry.getKey();
+                Object value = entry.getValue();
 
-                Predicate edadPredicate = criteriaBuilder.equal(
-                        edadExpression,
-                        edadBuscada
-                );
+                if ("edad".equals(attribute)) {
+                    int edadBuscada = (int) value;
+                    Path<LocalDate> fechaNacimientoPath = root.get("fechaNacimiento");
 
-                query.select(root).where(edadPredicate);
-            } else {
-                // Añadir condición para otros atributos
-                query.select(root).where(criteriaBuilder.equal(root.get(attribute), value));
+                    Expression<Integer> edadExpression = criteriaBuilder.function(
+                            "YEAR",
+                            Integer.class,
+                            fechaNacimientoPath
+                    );
+
+                    Predicate edadPredicate = criteriaBuilder.equal(
+                            edadExpression,
+                            edadBuscada
+                    );
+
+                    predicates.add(edadPredicate);
+                } else if ("equipo".equals(attribute)) {
+                    predicates.add(criteriaBuilder.equal(root.get("equipo").get("nombre"), value));
+                } else {
+                    predicates.add(criteriaBuilder.equal(root.get(attribute), value));
+                } 
             }
+
+            query.select(root).where(predicates.toArray(new Predicate[0]));
 
             // Añadir orden por edad
             if (orderByDesc) {
@@ -249,15 +260,15 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             if (entityManager != null && entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            e.printStackTrace(); // Añade un manejo adecuado del error, por ejemplo, logueando
+            e.printStackTrace();
         } finally {
             if (entityManager != null) {
-                entityManager.getTransaction().commit(); // Asegúrate de hacer el commit antes de cerrar
+                entityManager.getTransaction().commit();
                 entityManager.close();
             }
         }
 
-        return null; 
+        return null;
     }
 
 }

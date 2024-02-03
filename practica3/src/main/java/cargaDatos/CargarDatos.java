@@ -7,6 +7,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import DAO.CoachDAO;
 import DAO.CompeDAO;
 import DAO.EquipoDAO;
 import DAO.JugadorDAO;
@@ -14,6 +15,7 @@ import DAO.SponsorDAO;
 import dataSource.DataSourceEquipo;
 import dataSource.DataSourceJugador;
 import dataSource.DataSourceSponsor;
+import entidades.Coach;
 import entidades.Competicion;
 import entidades.Equipo;
 import entidades.Jugador;
@@ -32,9 +34,11 @@ public class CargarDatos {
 
     	List<Equipo> equipos = DataSourceEquipo.getEquipos();
     	Map<String, Set<Jugador>> jugadoresPorEquipo = DataSourceJugador.getJugadoresPorEquipo();
+    	Map<String, Coach> coachesPorEquipo = DataSourceJugador.getCoachesPorEquipo();
     	Map<String, Set<Sponsor>> sponsorsPorEquipo = DataSourceSponsor.getSponsorsPorEquipo();
     	EquipoDAO equipoDAO = new EquipoDAO();
-    	JugadorDAO jugadorDAO = new JugadorDAO();    
+    	JugadorDAO jugadorDAO = new JugadorDAO(); 
+    	CoachDAO coachDAO = new CoachDAO();
     	SponsorDAO sponsorDAO = new SponsorDAO();
 		CompeDAO compeDAO = new CompeDAO();
     	
@@ -48,6 +52,9 @@ public class CargarDatos {
     		
     		//Obtener jugadores por equipo
     		Set<Jugador> jugadores = jugadoresPorEquipo.get(equipo.getNombre());
+    		
+    	    // Obtener entrenador por equipo
+    	    Coach coach = coachesPorEquipo.get(equipo.getNombre());
     		
     		//Obtener sponsors por equipo
     		Set<Sponsor> sponsors = sponsorsPorEquipo.get(equipo.getNombre());
@@ -64,7 +71,16 @@ public class CargarDatos {
                 } else {
                     jugadorDAO.save(jugador);                
                 }
-    		} 		
+    		} 
+    		
+            // Insertar Coach
+            if (coach != null) {
+                LOGGER.info("Insertando entrenador en la base de datos: " + coach.getNick());
+                coach.setEquipo(equipo);
+                equipo.setCoach(coach);
+                coachDAO.save(coach);
+            }
+    		
     		for (Sponsor sponsor : sponsors) {   	
                 LOGGER.info("Insertando sponsor en la base de datos: " + sponsor.getNombre());
     			sponsor.agregarEquipoPatrocinado(equipo);

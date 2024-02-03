@@ -17,7 +17,7 @@ public class SimularFichaje {
     private static JugadorDAO jugadorDAO = new JugadorDAO();
 
     public static void simularVentanaFichajes() {
-    	logger.info("###### INICIO DEL MERCADO DE FICHAJES");
+    	logger.info("#################### INICIO DEL MERCADO DE FICHAJES #####################");
     	Equipo barca = equipoDAO.findByNombre("Barça Esports");
 
     	//Bajas 
@@ -51,46 +51,7 @@ public class SimularFichaje {
     	Equipo rebels = equipoDAO.findByNombre("Rebels");
     	rebels.altaJugadorNuevo(brokenBlade);
     	
-    	logger.info("###### FINAL DEL MERCADO DE FICHAJES");
+    	logger.info("################### FINAL DEL MERCADO DE FICHAJES #######################");
 
     }
-    
-
-
- 
 }
-
-
-
-/*   // Método para simular la ventana de fichajes al final de la temporada
-public static void simularVentanaFichajes() {
-    List<Equipo> equipos = equipoDAO.findAll();
-
-    // Iterar sobre cada equipo y realizar fichajes
-    for (Equipo equipo : equipos) {
-        realizarFichajes(equipo);
-    }
-}
-
-private static void realizarFichajes(Equipo equipo) {
-    // Obtener la lista de jugadores disponibles en el mercado
-    List<Jugador> jugadoresDisponibles = obtenerJugadoresDisponibles();
-
-    // Iterar sobre la lista de jugadores disponibles y realizar fichajes
-    for (Jugador jugador : jugadoresDisponibles) {
-        // Simular la decisión de fichar al jugador (puedes ajustar la lógica según tus necesidades)
-        if (Math.random() < 0.5) {
-            // Cargar el jugador nuevamente desde la base de datos para evitar problemas de fusión
-            Jugador jugadorDesdeDB = jugadorDAO.findById(jugador.getId());
-
-            // Fichar al jugador
-            equipo.fichar(jugadorDesdeDB, equipoDAO, jugadorDAO);
-        }
-    }
-}
-
-// Método para obtener la lista de jugadores disponibles en el mercado
-private static List<Jugador> obtenerJugadoresDisponibles() {
-	
-    return jugadorDAO.findAll(); 
-}*/

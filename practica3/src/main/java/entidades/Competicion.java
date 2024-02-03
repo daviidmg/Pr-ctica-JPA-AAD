@@ -33,9 +33,7 @@ public class Competicion {
 	
 	@Column (name = "number_of_teams")
     private int numeroEquipos;
-		
- //   private List<Partido> partidos = new ArrayList<>();    
-    
+		    
 	public String getNombre() {
 		return nombre;
 	}

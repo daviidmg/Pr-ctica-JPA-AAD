@@ -3,8 +3,10 @@ package demo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -106,7 +108,6 @@ public class ConsultasCompeticion {
             Equipo equipo = equipoDAO.findById(equipoId);
 
             if (equipo != null) {
-                // Utilizar PatrocinadorDAO para obtener la lista de patrocinadores de un equipo específico
                 List<Sponsor> patrocinadores = sponsorDAO.findPatrocinadoresByEquipo(equipo);
 
                 // Mostrar resultados
@@ -181,7 +182,6 @@ public class ConsultasCompeticion {
             entityManager = GenericDAOImpl.getEmf().createEntityManager();
             entityManager.getTransaction().begin();
 
-            // Llamada al método del JugadorDAO para calcular la edad promedio
             Double edadPromedio = jugadorDAO.calcularEdadPromedioJugadoresByEquipo(equipoId);
 
             // Mostrar resultados
@@ -315,26 +315,37 @@ public class ConsultasCompeticion {
         try {
             List<Sponsor> patrocinadoresComunes = sponsorDAO.findPatrocinadoresComunes(equipo1, equipo2);
 
-            // Realizar acciones con los patrocinadores comunes
             logger.info("## 12. Recuento total de patrocinadores comunes ##");
             logger.info("Patrocinadores comunes entre {} y {}: {}", equipo1, equipo2, patrocinadoresComunes.toString());
             logger.info("##################### FIN Consulta 13 #################################");
 
         } catch (Exception e) {
-            // Manejar la excepción según tus necesidades
             logger.error("Error al obtener patrocinadores comunes entre equipos: {}", e.getMessage());
         }
     }
     
     public static void ejecutarEjemplosCriteriaQuery() {
-    	List<Jugador> resultado1 = jugadorDAO.findJugadoresByCriteria("posicion", "top" , true);
-        mostrarResultadosConsulta(resultado1, "Ejemplo CriteriaQuery posicion: TOP");
     	
-        List<Jugador> resultado2 = jugadorDAO.findJugadoresByCriteria("nombre", "ACD" , true);
-        mostrarResultadosConsulta(resultado2, "Ejemplo CriteriaQuery nombre: ACD");
+    	Map<String, Object> criteriaMap = new HashMap<>();
+    	criteriaMap.put("nacionalidad", "español");
+    	criteriaMap.put("posicion", "top");
+
+    	List<Jugador> jugadores = jugadorDAO.findJugadoresByCriteria(criteriaMap, true);
+    	mostrarResultadosConsulta(jugadores, "Ejemplo CriteriaQuery nacionalidad: español, posición: top ");
     
-        List<Jugador> resultado3 = jugadorDAO.findJugadoresByCriteria("nacionalidad", "español" , false);
-        mostrarResultadosConsulta(resultado3, "Ejemplo CriteriaQuery nacionalidad: ESPAÑOL");
+    	Map<String, Object> criteriaMap2 = new HashMap<>();
+    	criteriaMap2.put("equipo", "Los Heretics");
+    	criteriaMap2.put("posicion", "Mid");
+
+    	List<Jugador> jugadores2 = jugadorDAO.findJugadoresByCriteria(criteriaMap2, true);
+    	mostrarResultadosConsulta(jugadores2, "Ejemplo CriteriaQuery equipo: Los Heretics, posicion: mid ");   
+    	
+    	Map<String, Object> criteriaMap3 = new HashMap<>();
+    	criteriaMap3.put("fichaje", true);
+    	criteriaMap3.put("equipo", "Barça Esports");
+
+    	List<Jugador> jugadores3 = jugadorDAO.findJugadoresByCriteria(criteriaMap3, true);
+    	mostrarResultadosConsulta(jugadores3, "Ejemplo CriteriaQuery fichajes del Barça ");
     
     }
     
@@ -352,15 +363,3 @@ public class ConsultasCompeticion {
     }
 
 }
-
-/*     String sqlQuery = "SELECT * FROM competition";
-Query query = entityManager.createNativeQuery(sqlQuery, Competicion.class);
-List<Competicion> resultados = query.getResultList();
-
-// Mostrar resultados
-logger.info("## 1. Características de la competición ##");
-for (Competicion competition : resultados) {
-    logger.info("Número de jornadas: {}, Número de equipos: {}, Fecha de creación: {}, Nombre: {}",
-            competition.getNumeroJornadas(), competition.getNumeroEquipos(),
-            competition.getFechaCreacion(), competition.getNombre());
-}*/

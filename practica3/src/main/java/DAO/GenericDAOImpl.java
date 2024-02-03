@@ -79,7 +79,7 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             try {
                 transaction.begin();
                 
-                // Si la entidad no está en el contexto de persistencia, realiza merge
+                // Si la entidad no está en el contexto de persistencia
                 T mergedEntity = em.contains(entity) ? entity : em.merge(entity);
                 
                 em.remove(mergedEntity);

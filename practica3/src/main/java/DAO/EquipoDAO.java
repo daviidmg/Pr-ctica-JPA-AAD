@@ -34,7 +34,7 @@ public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	            return entityManager.find(Equipo.class, id);
 	        } catch (Exception e) {
 	            LOGGER.error("Error al buscar equipo por ID: {}", e.getMessage());
-	            throw e; // Puedes manejar la excepción según tus necesidades
+	            throw e; 
 	        } finally {
 	            entityManager.close();
 	        }

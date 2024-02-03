@@ -132,7 +132,6 @@ public class Jugador {
         this.nacionalidad = nacionalidad;
         this.fechaNacimiento = fechaNacimiento;
         this.posicion = posicion;
-    //    this.fichaje = false;
 	}
 
 	@Override
@@ -141,10 +140,10 @@ public class Jugador {
 					+ ", nacido en: " + fechaNacimiento + ", juega en: " + equipo + " de: " + posicion;
 		}
 	
-    public void logJugadorInfo() {
+ /*   public void logJugadorInfo() {
         logger.info("Jugador creado - ID: {}, Nombre: {}, Nacionalidad: {}, Fecha de Nacimiento: {}, Posición: {}, Equipo: {}",
                 id, nombre, nacionalidad, fechaNacimiento, posicion, equipo.getNombre());
-    }
+    */
     
     public static int calcularEdad(LocalDate fechaNacimiento) {
         LocalDate fechaActual = LocalDate.now();

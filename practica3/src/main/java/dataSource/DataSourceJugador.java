@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import entidades.Coach;
 import entidades.Jugador;
 /**
  * Esta clase proporciona datos de jugadores.
@@ -15,6 +17,7 @@ import entidades.Jugador;
  */
 public class DataSourceJugador {
 	private static Map<String, Set<Jugador>> jugadoresPorEquipo = new HashMap<>();
+    private static Map<String, Coach> coachesPorEquipo = new HashMap<>();
 
 	static {
 		//Jugadores case
@@ -27,6 +30,10 @@ public class DataSourceJugador {
         //añadir jugadores de case a jugadoresporequipo
         jugadoresPorEquipo.put("Case Esports", new HashSet<Jugador>(Arrays.asList(
         		badlulu, maxi, javier, denvoksne, rhuckz)));
+        
+        // Entrenadores 
+        Coach coachCase = new Coach("André", "Guilhoto", "GILHOTO", "Portugués", LocalDate.of(1994, 8, 26));
+        coachesPorEquipo.put("Case Esports", coachCase);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores barça
@@ -39,6 +46,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Barça Esports", new HashSet<Jugador>(Arrays.asList(
         		whiteknight, sajator, naau, deadly, xixauxas)));
 	
+        // Entrenadores 
+        Coach coachBarca = new Coach("Alejandro", "Fernandez", "Jandro", "Español", LocalDate.of(1993, 1, 8));
+        coachesPorEquipo.put("Barça Esports", coachBarca);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores Ramboot
@@ -52,6 +62,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Ramboot", new HashSet<Jugador>(Arrays.asList(
         		ibo, lebron, twohoyrz, rayito, seneca)));
         
+        // Entrenadores 
+        Coach coachRamboot = new Coach("Eric", "Ruiz", "Independent", "Español", LocalDate.of(1998, 9, 19));
+        coachesPorEquipo.put("Ramboot", coachRamboot);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores Rebels   
@@ -64,6 +77,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Rebels", new HashSet<Jugador>(Arrays.asList(
         		r4ven, ahahacik, special, bean, lekcyc)));
         
+        // Entrenadores 
+        Coach coachRebels = new Coach("Iván", "Villanueva", "Prod1", "Español", LocalDate.of(1984, 6, 18));
+        coachesPorEquipo.put("Rebels", coachRebels);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores Guasones
@@ -76,6 +92,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Guasones", new HashSet<Jugador>(Arrays.asList(
         		dreedy, memento, ronaldo, motroco, duall)));
         
+        // Entrenadores 
+        Coach coachGuasones = new Coach("Miguel", "Santos", "FearlessS", "Portugués", LocalDate.of(1989, 3, 8));
+        coachesPorEquipo.put("Guasones", coachGuasones);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores UCAM
@@ -88,6 +107,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("UCAM", new HashSet<Jugador>(Arrays.asList(
         		acd, koldo, baca, kenal, obstinatus)));
         
+        // Entrenadores 
+        Coach coachUCAM = new Coach("Gonçalo ", "Brandão", "Crusher", "Portugués", LocalDate.of(1980, 10, 26));
+        coachesPorEquipo.put("UCAM", coachUCAM);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores Los Heretics
@@ -100,6 +122,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Los Heretics", new HashSet<Jugador>(Arrays.asList(
         		carlsen, xerxe, zwyroo, jackspektra, whiteinn)));
         
+        // Entrenadores 
+        Coach coachHeretics= new Coach("Víctor  ", "Machuca", "Machuki", "Español", LocalDate.of(1984, 4, 9));
+        coachesPorEquipo.put("Los Heretics", coachHeretics);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores GiantX
@@ -108,9 +133,13 @@ public class DataSourceJugador {
         Jugador jiizuke = new Jugador("Jiizuke", "Italiano", LocalDate.of(1997, 1, 14), "Mid");
         Jugador attila = new Jugador("Attila", "Portugués", LocalDate.of(1996, 2, 26), "Adc");
         Jugador stend = new Jugador("Stend", "Francés", LocalDate.of(2001, 7, 13), "Support");
+       
         jugadoresPorEquipo.put("GiantX", new HashSet<Jugador>(Arrays.asList(
         		th3antonio, maxlore, jiizuke, attila, stend)));
         
+        // Entrenadores 
+        Coach coachGiantx= new Coach("Malauri  ", "Restouble", "Malau", "Francés", LocalDate.of(2002, 5, 11));
+        coachesPorEquipo.put("GiantX", coachGiantx);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores Movistar KOI
@@ -123,6 +152,9 @@ public class DataSourceJugador {
         jugadoresPorEquipo.put("Movistar KOI", new HashSet<Jugador>(Arrays.asList(
         		marky, noname, random, shyCarry, marlon)));
         
+        // Entrenadores 
+        Coach coachMovistarKOI= new Coach("Jorge", "López", "Disgrace", "Español", LocalDate.of(1997, 10, 18));
+        coachesPorEquipo.put("Movistar KOI", coachMovistarKOI);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
         
         //jugadores ZETA
@@ -134,11 +166,18 @@ public class DataSourceJugador {
 
         jugadoresPorEquipo.put("ZETA", new HashSet<Jugador>(Arrays.asList(
         		kaylem, nyx, phlaty, mihai, bolyy1)));
+	
+        // Entrenadores 
+        Coach coachZETA= new Coach("Hendrik ", "López", "Karakal Jr", "Español", LocalDate.of(1995, 7, 18));
+        coachesPorEquipo.put("ZETA", coachZETA);
+//--------------------------------------------------------------------------------------------------------------------------------------------------        
 	}
 
 	public static Map<String, Set<Jugador>> getJugadoresPorEquipo() {
 		return jugadoresPorEquipo;
 	}
-	
-	
+
+	public static Map<String, Coach> getCoachesPorEquipo() {
+		return coachesPorEquipo;
+	}	
 }

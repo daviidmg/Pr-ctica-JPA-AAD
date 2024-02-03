@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -63,6 +64,9 @@ public class Equipo {
         inverseJoinColumns = @JoinColumn(name = "patrocinador_id"))
     private Set<Sponsor> patrocinadores=new HashSet<Sponsor>();
  
+    @OneToOne(mappedBy = "equipo", cascade = CascadeType.ALL)
+    private Coach coach;
+
     public void setListaJugadores(List<Jugador> listaJugadores) {
 		this.listaJugadores.addAll(listaJugadores);
 	}
@@ -72,7 +76,13 @@ public class Equipo {
 	public String getNombre() {
 		return nombre;
 	}
-	
+		
+	public Coach getCoach() {
+		return coach;
+	}
+	public void setCoach(Coach coach) {
+		this.coach = coach;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -213,37 +223,3 @@ public class Equipo {
     }
     
 }
- /*   public void fichar(Jugador jugador, EquipoDAO equipoDAO, JugadorDAO jugadorDAO) {
-        if (jugador != null && jugador.getEquipo() != null && !jugador.getEquipo().equals(this)) {
-            Equipo equipoOrigen = jugador.getEquipo();
-
-            // Eliminar al jugador del equipo de origen
-            equipoOrigen.eliminarJugador(jugador);
-
-            // Establecer al jugador como fichaje en el equipo actual
-            jugador.setFichaje(true);
-
-            // Agregar al jugador al equipo actual
-            this.agregarJugador(jugador);
-
-            // Actualizar en db
-            equipoDAO.update(equipoOrigen);
-            equipoDAO.update(this);
-            jugadorDAO.update(jugador);
-
-            logger.info("El equipo {} ha fichado al jugador {} del equipo {}", this.getNombre(), jugador.getNombre(), equipoOrigen.getNombre());
-
-        } else {
-            logger.error("No se puede realizar el fichaje. El jugador o su equipo actual son nulos.");
-        }
-    }
-
-    
-    private void eliminarJugador(Jugador jugador) {
-        if (jugador != null && this.listaJugadores.contains(jugador)) {
-            this.listaJugadores.remove(jugador);
-            jugador.setEquipo(null);
-        }
-    }*/
-
-
