@@ -98,6 +98,7 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     }
 
 	public List<T> findAll() {
+		  List<T> lista = null;
 		  
 		try (EntityManager em = emf.createEntityManager()) {
 			
@@ -109,8 +110,8 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             
 	        }catch (Exception e) {
 	            LOGGER.error("Error al obtener todos los elementos de la entidad " + getEntityClass().getSimpleName(), e);
-	            throw e;
 	        }
+		return lista;
 	}
 }
 

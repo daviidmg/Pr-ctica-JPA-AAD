@@ -2,16 +2,18 @@ package entidades;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-
+/**
+ * Esta clase representa un entrenador.
+ *
+ * @author David
+ */
 @Entity
 public class Coach {
 
@@ -116,12 +118,4 @@ public class Coach {
         		+ ", nacido en: " + fechaNacimiento + ", entrena en: " + equipo;
     }
 		
-    
-	
-    /*    @Override
-    public String toString() {
-        return "Coach con ID: " + id + "[Nombre: " + nombre +  "nacionalidad: " + nacionalidad 
-        		+ ", nacido en: " + fechaNacimiento + " entrena en: " + equipo;
-    }
-		*/
 }

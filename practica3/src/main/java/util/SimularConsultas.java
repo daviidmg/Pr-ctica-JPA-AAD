@@ -1,7 +1,10 @@
 package util;
 
 import demo.ConsultasCompeticion;
-
+/*** Esta clase proporciona métodos para simular consultas en la competición.
+* 
+* @author David
+*/
 public class SimularConsultas {
 
 	public static void lanzarConsultas() {

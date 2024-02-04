@@ -13,7 +13,6 @@ import entidades.Competicion;
 import entidades.Equipo;
 /**
  * Esta clase se encarga de simular las jornadas de un campeonato.
- * Utiliza métodos para simular el desarrollo de partidos y actualizar los resultados en la competición.
  *
  * @author David
  */

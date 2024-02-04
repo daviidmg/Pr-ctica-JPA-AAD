@@ -9,8 +9,10 @@ import DAO.EquipoDAO;
 import DAO.JugadorDAO;
 import entidades.Equipo;
 import entidades.Jugador;
-
-
+/*** Esta clase proporciona métodos para simular fichajes en la competición.
+* 
+* @author David
+*/
 public class SimularFichaje {
     private static final Logger logger = LogManager.getLogger(SimularFichaje.class);
     private static EquipoDAO equipoDAO = new EquipoDAO();

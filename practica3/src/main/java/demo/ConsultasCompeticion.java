@@ -17,7 +17,10 @@ import DAO.SponsorDAO;
 import entidades.Equipo;
 import entidades.Jugador;
 import entidades.Sponsor;
-
+/*** Esta clase realiza y gestiona consultas relacionadas con la competición.
+* 
+* @author David
+*/
 public class ConsultasCompeticion {
     private static EquipoDAO equipoDAO = new EquipoDAO();
     private static JugadorDAO jugadorDAO = new JugadorDAO();

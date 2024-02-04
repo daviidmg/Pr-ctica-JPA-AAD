@@ -8,13 +8,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 /**
  * Esta clase representa la competición.
  *
  * @author David
  */
-
 @Entity
 @Table(name = "competition")
 public class Competicion {

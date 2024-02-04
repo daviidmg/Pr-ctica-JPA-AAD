@@ -87,7 +87,7 @@ public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	    
 	    public List<Equipo> findAllOrderedByPoints(int limit, boolean ascending) {
 	        EntityManager entityManager = null;
-
+	        List<Equipo> equipos= null;
 	        try  {
 	            entityManager = getEmf().createEntityManager();
 	            entityManager.getTransaction().begin();
@@ -95,17 +95,17 @@ public class EquipoDAO extends GenericDAOImpl<Equipo> {
 	            TypedQuery<Equipo> query = entityManager.createQuery(jpql, Equipo.class);
 	            query.setMaxResults(limit);
 	            
-	            return query.getResultList();
+	            equipos = query.getResultList();
 	        } catch (Exception e) {
 	            if (entityManager != null && entityManager.getTransaction().isActive()) {
 	                entityManager.getTransaction().rollback();
 	            }
 	            LOGGER.error("Error al obtener la clasificación de los equipos", e);
-	            throw e;
 	        } finally {
 	            if (entityManager != null) {
 	                entityManager.close();
 	            }
 	        }
+            return equipos;
 	    }
 }

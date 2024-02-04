@@ -3,12 +3,6 @@ package util;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import DAO.GenericDAOImpl;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-
-import org.hibernate.jpa.HibernatePersistenceProvider;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -31,18 +31,22 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
     }
     
     public Jugador findById(Long id) {
+    	Jugador jugador = null;
+    	
         EntityManager entityManager = getEmf().createEntityManager();
         try {
             return entityManager.find(Jugador.class, id);
         } catch (Exception e) {
             LOGGER.error("Error al buscar jugador por ID: {}", e.getMessage());
-            throw e; 
         } finally {
             entityManager.close();
         }
+        return jugador;
     }
     
     public Jugador findByNombre(String nombre) {
+    	Jugador jugador = null;
+
         EntityManager entityManager = null;
 
         try {
@@ -55,12 +59,12 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             return resultados.isEmpty() ? null : resultados.get(0);
         } catch (Exception e) {
             LOGGER.error("Error al buscar jugador por nombre: {}", e.getMessage());
-            throw e;
         } finally {
             if (entityManager != null) {
                 entityManager.close();
             }
         }
+        return jugador;
     }
     
     public List<Jugador> findJugadoresByEquipo(long equipoId) {
@@ -82,7 +86,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             if (entityManager != null && entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            e.printStackTrace();
+            LOGGER.error("Error al buscar jugadores por equipo", e);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -93,6 +97,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
     }
     
     public Double calcularEdadPromedioJugadoresByEquipo(long equipoId) {
+    	Double edadMedia = null;
         EntityManager entityManager = null;
 
         try {
@@ -108,13 +113,13 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             if (entityManager != null && entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            e.printStackTrace();
-            return null;
+            LOGGER.error("Error al calcular la edad promedio de los jugadores por equipo", e);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
             }
         }
+        return edadMedia;
     }
     
     public Long contarJugadoresMayoresPorNacionalidad(String nacionalidad, int edad) {
@@ -196,6 +201,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
     
     public List<Jugador> findJugadoresByCriteria(Map<String, Object> criteriaMap, boolean orderByDesc) {
         EntityManager entityManager = null;
+        List<Jugador> jugadores = null;
 
         try {
             entityManager = getEmf().createEntityManager();
@@ -260,7 +266,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             if (entityManager != null && entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
-            e.printStackTrace();
+            LOGGER.error("Error en la búsqueda de jugadores por criterios", e);
         } finally {
             if (entityManager != null) {
                 entityManager.getTransaction().commit();
@@ -268,7 +274,7 @@ public class JugadorDAO extends GenericDAOImpl<Jugador>{
             }
         }
 
-        return null;
+        return jugadores;
     }
 
 }

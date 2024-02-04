@@ -4,7 +4,12 @@ import cargaDatos.CargarDatos;
 import util.SimularConsultas;
 import util.SimularFichaje;
 import util.SimularJornada;
-
+/*** Esta clase representa el punto de entrada principal para la simulación de la competición.
+* Se encarga de cargar equipos en la base de datos, simular jornadas del campeonato,
+* simular una ventana de fichajes y lanzar consultas.
+* 
+* @author David
+*/
 public class SimulacionMain {
 
 	public static void main(String[] args) {
